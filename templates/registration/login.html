@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h2 class="text-center">Đăng nhập</h2>
+</div>
+{% if form.errors %}
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <div>Sai tên đăng nhập hoặc mật khẩu!</div>
+    </div>
+{% endif %}
+<form class="m-5" action="" method="post">
+    {% csrf_token %}
+    <div class="form-group row">
+        <label for="id_username" class="col-sm-2 col-form-label">Tên đăng nhập:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="id_username" name="username" required>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="id_password" class="col-sm-2 col-form-label">Mật khẩu:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control" id="id_password" maxlength="50" name="password" required>
+        </div>
+    </div>
+    <!-- <div class="form-group row m-3">
+        <div class="col-sm-2 col-form-label"></div>
+        <div class="col-sm-10">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox"> Ghi nhớ
+            </label>
+        </div>
+    </div> -->
+    <div class="form-group row">
+        <div class="col-sm-2 col-form-label"></div>
+        <div class="col-sm-10">
+            <hr/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label"></label>
+        <div class="col-sm-10">
+            <div>
+                Bạn chưa có tài khoản? <a href="{% url 'register' %}" class="ml-2">Đăng ký ngay!</a>
+            </div>
+            <div>
+                <a href="{% url 'password_reset' %}">Quên mật khẩu?</a>
+            </div>
+        </div>
+    </div>
+    <div class="form-group row"></div>
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+        </div>
+    </div>
+</form>
+{% endblock %}

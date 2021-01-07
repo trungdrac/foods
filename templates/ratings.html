@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Ratings{% endblock %}
+
+{% block content %}
+    {% for dish in page_obj.object_list %}
+        <div class="card shadow mb-4 ml-4 mr-4">
+            <!-- Card Header - Accordion -->
+            <a href="#collapseCardExample{{ dish.pk }}" class="d-block card-header py-3" data-toggle="collapse"
+               role="button"
+               aria-expanded="true" aria-controls="collapseCardExample">
+                <h6 class="m-0 font-weight-bold text-primary">{{ dish.user.username }}</h6>
+            </a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse show" id="collapseCardExample{{ dish.pk }}">
+                <div class="card-body">
+                    {{ dish.score }}
+                    <br/>
+                    {{ dish.comment }}
+                    <br/>
+                    {{ dish.updated_at }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="mb-4">
+        <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                <button class="btn btn-secondary"
+                        disabled>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</button>
+            </span>
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}

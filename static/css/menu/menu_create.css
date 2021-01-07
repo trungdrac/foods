@@ -1,0 +1,6 @@
+i.fas {
+    cursor: pointer;
+}
+i.fas:hover {
+    filter: alpha(opacity=100);
+}

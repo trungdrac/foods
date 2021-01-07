@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Ratings{% endblock %}
+
+{% block content %}
+    <form class="m-5" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="id_height" class="col-sm-2 col-form-label">Score</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="id_height" name="score" min="1" max="5" value="{{ rating.score }}"
+                       required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="id_weight" class="col-sm-2 col-form-label">Comment</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id_weight" name="comment" maxlength="50"
+                       value="{{ rating.comment }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

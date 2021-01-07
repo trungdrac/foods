@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Foods{% endblock %}
+
+{% block content %}
+    <div class="m-5">
+        <h2 class="text-center mb-5">Thông tin người dùng</h2>
+        <table class="table table-hover">
+            <tr>
+                <th>Tên đăng nhập:</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email:</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <th>Họ tên:</th>
+                <td>{{ user.last_name }} {{ user.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Ngày sinh:</th>
+                <td>{{ user.user.birthday|date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+                <th>Giới tính:</th>
+                <td>{{ user.user.gender|yesno:"Nam, Nữ" }}</td>
+            </tr>
+            <tr>
+                <th>Chiều cao:</th>
+                <td>{{ user.user.height }} cm</td>
+            </tr>
+            <tr>
+                <th>Chiều cao:</th>
+                <td>{{ user.user.weight }} kg</td>
+            </tr>
+            <tr>
+                <th>Hệ số ăn uống:</th>
+                <td>{{ user.user.diet_factor }}</td>
+            </tr>
+            <tr>
+                <th>Trạng thái tài khoản:</th>
+                <td>
+                    <div class="mb-3">{{ user.is_active|yesno:"Hoạt động, Khóa" }}</div>
+                    {% if request.user.is_authenticated and request.user.is_staff %}
+                        <form action="activate/" method="post">
+                            {% csrf_token %}
+                            {% if user.is_active %}
+                                <input class="btn btn-danger" type="submit" value="Khoá tài khoản">
+                            {% else %}
+                                <input class="btn btn-success" type="submit" value="Mở khoá tài khoản">
+                            {% endif %}
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}

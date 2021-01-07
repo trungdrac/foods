@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Foods{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for user in page_obj.object_list %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="{% url 'profile_detail' user.pk %}">{{ user.username }}</a>
+                        </h4>
+                        <h5>{{ user.last_name }} {{ user.first_name }}</h5>
+                        <p class="card-text">{{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mb-4">
+        <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                <button class="btn btn-secondary" disabled>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </button>
+            </span>
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Dishes{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for dish in page_obj.object_list %}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <div class="h-75 d-flex align-items-center">
+                <a href="#"><img class="card-img-top" src="/media/{{ dish.image|default:"default.jpg" }}" alt="Không có hình ảnh"></a>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{% url 'admin_dish_detail' dish.pk %}">{{ dish.dish_name }}</a>
+                </h4>
+                <h5>{{dish.calories}} kcal</h5>
+                <p class="card-text">{{ dish.description }}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Đánh giá trung bình: {{dish.score}}/5</small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="mb-4">
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+            <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                <button class="btn btn-secondary" disabled>
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages}}
+                </button>
+            </span>
+
+            {% if page_obj.has_next %}
+            <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+            <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

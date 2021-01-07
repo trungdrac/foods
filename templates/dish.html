@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block title %}Dish{% endblock %}
+
+{% block content %}
+<div class="row m-5">
+    <div class="col-lg-6">
+        <img class="card-img-top" src="/media/{{ object.image|default:"default.jpg" }}" alt="Không có hình ảnh">
+    </div>
+    <div class="col-lg-6">
+        <div class="d-flex justify-content-center">
+            <h2 class="text-uppercase">{{ object.dish_name }}</h2>
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <th>Người sở hữu:</th>
+                <td><a href="{% url 'profile_detail' object.user.pk %}">{{ object.user }}</a></td>
+            </tr>
+            <tr>
+                <th>Mô tả:</th>
+                <td>{{ object.description }}</td>
+            </tr>
+            <tr>
+                <th>Lượng calories:</th>
+                <td>{{ object.calories }} kcal</td>
+            </tr>
+            <tr>
+                <th>Trạng thái:</th>
+                <td>{{ object.is_public|yesno:"Công khai, Riêng tư" }}</td>
+            </tr>
+            <tr>
+                <th>Thành phần:</th>
+                <td>{{ object.ingredients }}</td>
+            </tr>
+            <tr>
+                <th>Đánh giá trung bình:</th>
+                <td><span class="mr-2">{{ object.score }}/5</span><i class="fas fa-star"></i></td>
+            </tr>
+        </table>
+        <div class="row m-3 d-flex justify-content-center">
+            {% if user.is_authenticated %}
+            {% if user != object.user and not user.is_staff %}
+            <a type="button" class="btn btn-secondary m-2" data-toggle="modal" data-target="#form">Đánh giá</a>
+            <div class="modal fade" id="form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="card-body text-center">
+                            <div class="text-center">
+                                <form action="rate/" method="post">
+                                    {% csrf_token %}
+                                    <h4>Thêm đánh giá cho món ăn</h4>
+                                    <div class="mb-2">
+                                        <input type="number" min="1" max="5" step="1"
+                                            value="{{ user_rating.score|default:5 }}" id="rating" name="score">
+                                        <label for="rating">
+                                            <i class="fas fa-star"></i>
+                                        </label>
+                                    </div>
+                                    <div class="comment-area">
+                                        <label>
+                                            <textarea class="form-control" placeholder="Thêm bình luận" rows="4"
+                                                name="comment" maxlength="100">{{ user_rating.comment }}</textarea>
+                                        </label>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <button class="btn btn-success" type="submit">Gửi</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <a type="button" class="btn btn-primary m-2" href="{% url 'user_update_dish' object.id %}">Chỉnh sửa</a>
+            <a type="button" class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#confirmModal">Xóa</a>
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center m-5">
+    <div class="panel panel-default w-100">
+        <div class="panel-heading">
+            <h3 class="panel-title">Đánh giá bởi người dùng</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                {% for dish in page_obj.object_list %}
+                <li class="list-group-item">
+                    <div>
+                        <a href="{% url 'profile_detail' dish.user.pk %}">{{ dish.user }}</a>
+                        <div>
+                            <span>{{ dish.score }}</span>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="comment-text">
+                            <span>{{ dish.comment }}</span>
+                        </div>
+                        <div>
+                            <span>{{ dish.updated_at }}</span>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="mb-4">
+                <div class="pagination d-flex justify-content-center">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                        <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+                        <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                        {% endif %}
+
+                        <span class="current">
+                            <button class="btn btn-secondary" disabled>Page {{ page_obj.number }} of
+                                {{page_obj.paginator.num_pages }}</button>
+                        </span>
+
+                        {% if page_obj.has_next %}
+                        <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+                        <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

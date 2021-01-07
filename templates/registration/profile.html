@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+        <h2 class="text-center">Thông tin cá nhân</h2>
+    </div>
+    <form class="m-5" action="" method="post">
+        {% csrf_token %}
+        <div class="form-group row">
+            <label for="id_height" class="col-sm-2 col-form-label">Chiều cao (cm):</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="id_height" name="height" min="100" max="250"
+                       value="{{ form.height }}" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="id_weight" class="col-sm-2 col-form-label">Cân nặng (kg):</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="id_weight" name="weight" min="10" max="200"
+                       value="{{ form.weight }}"
+                       required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="id_birthday" class="col-sm-2 col-form-label">Ngày sinh:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="id_birthday" name="birthday"
+                       value="{{ form.birthday|date:"Y-m-d" }}" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2">Giới tính:</div>
+            <div class="col-sm-10">
+                <div class="form-check">
+                    {% if form.gender %}
+                        <input type="radio" class="form-check-input" id="male" name="gender" value="true" checked>
+                        <label class="form-check-label" for="male">
+                            Nam
+                        </label>
+                        <br/>
+                        <input type="radio" class="form-check-input" id="female" name="gender" value="false">
+                        <label class="form-check-label" for="female">
+                            Nữ
+                        </label>
+                    {% else %}
+                        <input type="radio" class="form-check-input" id="male" name="gender" value="true">
+                        <label class="form-check-label" for="male">
+                            Nam
+                        </label>
+                        <br/>
+                        <input type="radio" class="form-check-input" id="female" name="gender" value="false"
+                               checked>
+                        <label class="form-check-label" for="female">
+                            Nữ
+                        </label>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="id_diet_factor" class="col-sm-2 col-form-label">Hệ số ăn uống:</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="id_diet_factor" name="diet_factor" step="0.1" required
+                       value="{{ form.diet_factor }}">
+                <br>
+                <span class="helptext">
+                    <ul>
+                        <li>Bình thường: 1</li>
+                        <li>Tăng calories: 1.x (ví dụ: 1.3)</li>
+                        <li>Giảm calories: 0.x (ví dụ: 0.8)</li>
+                    </ul>
+                </span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

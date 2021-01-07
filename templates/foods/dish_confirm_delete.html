@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Dish{% endblock %}
+
+{% block content %}
+    <form class="m-5" method="post">
+        {% csrf_token %}
+        <p>Bạn có chắc muốn xóa "{{ object }}"?</p>
+        <input type="submit" class="btn btn-primary" value="Xác nhận">
+    </form>
+{% endblock %}
