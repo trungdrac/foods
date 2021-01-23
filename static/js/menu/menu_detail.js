@@ -233,8 +233,9 @@ const update_menu = ()=>{
         },
         function(data, status){
             if (status == 'success'){
-                toastr.options.onHidden = function() { window.location = data }
-                toastr.success("Cập nhật thực đơn thành công, đang chuyển trang...", "Hệ thống")
+                window.location = data
+                // toastr.options.onHidden = function() { window.location = data }
+                // toastr.success("Tạo thực đơn thành công, đang chuyển trang...", "Hệ thống")
             }
         }
     )
@@ -259,8 +260,9 @@ const clone_menu = ()=>{
         },
         function(data, status){
             if (status == 'success'){
-                toastr.options.onHidden = function() { window.location = data }
-                toastr.success("Sao chép thực đơn thành công, đang chuyển trang...", "Hệ thống")
+                window.location = data
+                // toastr.options.onHidden = function() { window.location = data }
+                // toastr.success("Tạo thực đơn thành công, đang chuyển trang...", "Hệ thống")
             }
         }
     )
@@ -274,8 +276,9 @@ const delete_menu = ()=>{
         },
         function(data, status){
             if (status == 'success'){
-                toastr.options.onHidden = function() { window.location = data }
-                toastr.success("Xóa thực đơn thành công, đang chuyển trang...", "Hệ thống")
+                window.location = data
+                // toastr.options.onHidden = function() { window.location = data }
+                // toastr.success("Tạo thực đơn thành công, đang chuyển trang...", "Hệ thống")
             }
         }
     )

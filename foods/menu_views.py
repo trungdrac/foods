@@ -25,7 +25,7 @@ calories_conf = [
 ]
 
 LIMIT_DISH_FILTER = 10
-CRUD_SUCCESS_NAVIGATE = "/menu/history"
+CRUD_SUCCESS_NAVIGATE = "/menu/history?result=crud_success"
 
 class index(LoginRequiredView):
     def get(self, request):
@@ -54,6 +54,7 @@ class create(LoginRequiredView):
         data['calories'] = calories
         data['calories_conf'] = calories_conf
         return render(request, 'menu/create.html', data)
+
 
 class create_query(LoginRequiredView):
     def get(self, request):
@@ -85,6 +86,7 @@ class create_query(LoginRequiredView):
             )
             m_d.save()
         return HttpResponse(CRUD_SUCCESS_NAVIGATE)
+
 
 class update_query(LoginRequiredView):
     def get(self, request):
@@ -145,22 +147,22 @@ class delete_query(LoginRequiredView):
         return HttpResponse(CRUD_SUCCESS_NAVIGATE)
 
 
-
-
-
 class history(LoginRequiredView):
     PAGE_NUMBER_DEFAULT = 1
     ORDER_TYPE_DEFAULT = "newest"
     DATE_FILTER_DEFAULT = ""
+    RESULT_DEFAULT = ""
     def get(self, request):
         self.page_number = int(request.GET.get("page_number", self.PAGE_NUMBER_DEFAULT))
         self.order_type = request.GET.get("order_type", self.ORDER_TYPE_DEFAULT)
         self.date_filter = request.GET.get("date_filter", self.DATE_FILTER_DEFAULT)
+        self.result = request.GET.get("result", self.RESULT_DEFAULT)
         return self.execute(request)
     def post(self, request):
         self.page_number = int(request.POST.get("page_number", self.PAGE_NUMBER_DEFAULT))
         self.order_type = request.POST.get("order_type", self.ORDER_TYPE_DEFAULT)
         self.date_filter = request.POST.get("date_filter", self.DATE_FILTER_DEFAULT)
+        self.result = request.POST.get("result", self.RESULT_DEFAULT)
         return self.execute(request)
     def execute(self, request):
         query = Q(user=request.user)
@@ -183,7 +185,8 @@ class history(LoginRequiredView):
                 "cur_page": self.page_number,
                 "has_next": page_count>self.page_number,
                 "has_previous": self.page_number>1,
-                "date_filter": self.date_filter
+                "date_filter": self.date_filter,
+                "result": self.result
             }
         )
 

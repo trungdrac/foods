@@ -225,8 +225,9 @@ const click_on_confirm= ()=>{
         },
         function(data, status){
             if (status == 'success'){
-                toastr.options.onHidden = function() { window.location = data }
-                toastr.success("Tạo thực đơn thành công, đang chuyển trang...", "Hệ thống")
+                window.location = data
+                // toastr.options.onHidden = function() { window.location = data }
+                // toastr.success("Tạo thực đơn thành công, đang chuyển trang...", "Hệ thống")
             }
         }
     )

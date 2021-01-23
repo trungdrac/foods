@@ -6,6 +6,11 @@
     {% load static %}
         <script src="{% static 'js/js.cookie.min.js' %}" defer></script>
         <script src="{% static 'js/menu/menu_history.js' %}" defer></script>
+        <script defer>
+            const result = "{{result}}"
+        </script>
+        <script src="{% static 'js/toastr.min.js' %}" defer></script>
+        <link rel="stylesheet" href="{% static 'css/toastr.css' %}">
         <link rel="stylesheet" href="{% static 'css/menu/menu_history.css' %}"></link>
     <div class="container-fluid" style="height:750px">
         <div class=""><h3 class="font-weight-bold">Lịch sử thực đơn</h3></div>

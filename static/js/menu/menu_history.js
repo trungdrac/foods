@@ -45,4 +45,9 @@ $(document).ready(()=>{
             window.location = window.location
         })
     }
+    
+    console.log(result)
+    if (result=="crud_success"){
+        toastr.success("Thao tác thành công,...", "Hệ thống")
+    }
 })
